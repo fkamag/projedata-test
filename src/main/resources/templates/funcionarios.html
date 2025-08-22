@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout (~{:: main})}">
+<head>
+  <meta charset="UTF-8" />
+  <title>Funcionários</title>
+</head>
+<body>
+<main>
+  <h1>Funcionários</h1>
+  <div>
+    <nobr>
+      <a th:href="@{/funcionarios/add}">Incluir Funcionário</a> |
+      <a th:href="@{/}">Voltar</a>
+    </nobr>
+  </div>
+  <br/><br/>
+  <div>
+    <table class="table">
+      <tr>
+        <th style="width: 300px;">Nome</th>
+        <th style="width: 150px;">Data de Nascimento</th>
+        <th style="width: 150px;">Salário</th>
+        <th style="width: 150px;">Função</th>
+      </tr>
+      <tr th:each ="funcionario : ${funcionarios}">
+        <td th:text="${funcionario.nome}">...</td>
+        <td th:text="${#temporals.format(funcionario.dataNascimento, 'dd/MM/yyyy')}">...</td>
+        <td style="text-align: right; padding-right: 80px;" th:text="${#numbers.formatDecimal(funcionario.salario, 1, 'POINT', 2, 'COMMA')}">...</td>
+        <td th:text="${funcionario.funcao}">...</td>
+        <td>
+          <a class="btn btn-primary btn-sm" th:href="@{/funcionarios/{funcionarioId}/edit(funcionarioId=${funcionario.id})}">Edit</a>
+          <a class="btn btn-danger btn-sm" th:href="@{/funcionarios/{funcionarioId}/delete(funcionarioId=${funcionario.id})}">Delete</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <br/>
+</main>
+</body>

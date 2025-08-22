@@ -7,11 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
 
@@ -19,12 +20,10 @@ public class FuncionarioController {
   private FuncionarioService funcionarioService;
 
   @GetMapping
-  public ResponseEntity<List<FuncionarioDto>> findAll() {
+  public String findAll(Model model) {
     List<Funcionario> funcionarios = funcionarioService.findAll();
-    List<FuncionarioDto> funcionariosDtos = funcionarios.stream()
-        .map(FuncionarioDto::fromEntity)
-        .toList();
-    return ResponseEntity.status(HttpStatus.OK).body(funcionariosDtos);
+    model.addAttribute("funcionarios", funcionarios);
+    return "funcionarios";
   }
 
 }
